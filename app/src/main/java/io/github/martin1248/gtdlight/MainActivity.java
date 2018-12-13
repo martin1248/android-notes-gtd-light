@@ -32,7 +32,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -44,22 +43,12 @@ public class MainActivity extends AppCompatActivity
 
     CursorAdapter cursorAdapter;
 
-    // Note: @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    //region AppCompat-, Fragment- and Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // Note: first layout which did not support icons to the left of the text
-        //    int[] to = {android.R.id.text1};
-        // and
-        //    android.R.layout.simple_list_item_1
-        //
-        // Note: Cursor Adapter which did not support "..." for multi line notes
-        //    String[] from = {DBOpenHelper.NOTE_TEXT};
-        //    int[] to = {R.id.tvNote};
-        //    cursorAdapter = new SimpleCursorAdapter(this, R.layout.note_list_item, null,from,to,0);
         cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
 
@@ -76,11 +65,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-        // TODO getLoaderManager() is deprected: Use instead android.support.v4.app.FragmentActivity.getSupportLoaderManager()
-        //getLoaderManager().initLoader(0, null, this);
         getSupportLoaderManager().initLoader(0,null,this);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,7 +76,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent intent = new Intent(MainActivity.this,EditorActivity.class); // TODO: In case of unknown error keep getBaseContext() in mind
+                Intent intent = new Intent(MainActivity.this,EditorActivity.class);
                 startActivityForResult(intent, EDITOR_REQUEST_CODE);
             }
         });
@@ -109,13 +94,6 @@ public class MainActivity extends AppCompatActivity
             checkPermissions();
             return;
         }
-    }
-
-    private void insertNote(String newNote) {
-        ContentValues values = new ContentValues();
-        values.put(DBOpenHelper.NOTE_TEXT, newNote);
-        Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI, values);
-        Log.d("MainActivity", "Inserted note " + noteUri.getLastPathSegment());
     }
 
     @Override
@@ -137,12 +115,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
 
         switch (id) {
             case R.id.action_create_sample:
@@ -158,6 +131,32 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_WRITE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionGranted = true;
+                    Toast.makeText(this, "External storage permission granted",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "You must grant permission!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+    //endregion
+
+    private void insertNote(String newNote) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.NOTE_TEXT, newNote);
+        Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI, values);
+        Log.d("MainActivity", "Inserted note " + noteUri.getLastPathSegment());
     }
 
     private void deleteAllNotes() {
@@ -198,6 +197,33 @@ public class MainActivity extends AppCompatActivity
         getSupportLoaderManager().restartLoader(0,null,this);
     }
 
+    // Checks if external storage is available for read and write
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    // Initiate request for permissions.
+    private boolean checkPermissions() {
+        if (!isExternalStorageWritable()) {
+            Toast.makeText(this, "This app only works on devices with usable external storage",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSION_WRITE);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //region NavigationView
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -222,55 +248,9 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    //endregion
 
-    // Checks if external storage is available for read and write
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
-
-    // Initiate request for permissions.
-    private boolean checkPermissions() {
-
-        if (!isExternalStorageWritable()) {
-            Toast.makeText(this, "This app only works on devices with usable external storage",
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_PERMISSION_WRITE);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    // Handle permissions result
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSION_WRITE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permissionGranted = true;
-                    Toast.makeText(this, "External storage permission granted",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "You must grant permission!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
-    // MARK: LoaderManager.LoaderCallbacks<Cursor>
-
+    //region LoaderManager.LoaderCallbacks
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
@@ -293,4 +273,5 @@ public class MainActivity extends AppCompatActivity
             restartLoader();
         }
     }
+    //endregion
 }

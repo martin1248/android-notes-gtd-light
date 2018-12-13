@@ -28,6 +28,7 @@ public class NotesProvider extends ContentProvider {
 
     private SQLiteDatabase database;
 
+    //region ContentProvider
     @Override
     public boolean onCreate() {
         DBOpenHelper helper = new DBOpenHelper(getContext());
@@ -65,4 +66,5 @@ public class NotesProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return database.update(DBOpenHelper.TABLE_NOTES, values, selection,selectionArgs);
     }
+    //endregion
 }

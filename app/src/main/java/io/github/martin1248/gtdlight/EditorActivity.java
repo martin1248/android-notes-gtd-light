@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -18,6 +18,7 @@ public class EditorActivity extends AppCompatActivity {
     private String noteFilter;
     private String oldText;
 
+    //region AppCompat-, Fragment- and Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +37,7 @@ public class EditorActivity extends AppCompatActivity {
             noteFilter = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
 
             Cursor cursor = getContentResolver().query(uri,
-                    DBOpenHelper.ALL_COLUMNS, noteFilter, null,null
-                    );
+                    DBOpenHelper.ALL_COLUMNS, noteFilter, null,null);
             cursor.moveToFirst();
             oldText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
             editor.setText(oldText);
@@ -53,7 +53,6 @@ public class EditorActivity extends AppCompatActivity {
         return true;
     }
 
-    // TODO: Maybe works without below code
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -69,6 +68,12 @@ public class EditorActivity extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        finishEditing();
+    }
+    //endregion
 
     private void deleteNote() {
         getContentResolver().delete(NotesProvider.CONTENT_URI, noteFilter, null);
@@ -112,10 +117,5 @@ public class EditorActivity extends AppCompatActivity {
         values.put(DBOpenHelper.NOTE_TEXT, noteText);
         getContentResolver().insert(NotesProvider.CONTENT_URI, values);
         setResult(RESULT_OK);
-    }
-
-    @Override
-    public void onBackPressed() {
-        finishEditing();
     }
 }

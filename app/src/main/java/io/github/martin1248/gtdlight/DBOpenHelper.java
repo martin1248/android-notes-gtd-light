@@ -30,10 +30,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    //region SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE);
-        // Note: Check file creation by using android device monitor: /Library/Android/sdk/tools/lib/monitor-x86_64/monitor.app
+        // Note: Check database file creation by using android device monitor:
+        //          /Library/Android/sdk/tools/lib/monitor-x86_64/monitor.app
     }
 
     @Override
@@ -41,4 +43,5 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTES);
         onCreate(db);
     }
+    //endregion
 }

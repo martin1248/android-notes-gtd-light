@@ -14,6 +14,7 @@ public class NotesCursorAdapter extends CursorAdapter{
         super(context, c, flags);
     }
 
+    //region CursorAdapter
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(
@@ -35,4 +36,5 @@ public class NotesCursorAdapter extends CursorAdapter{
         TextView tv = view.findViewById(R.id.tvNote);
         tv.setText(noteText);
     }
+    //endregion
 }

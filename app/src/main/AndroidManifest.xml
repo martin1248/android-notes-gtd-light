@@ -37,7 +37,7 @@
 
         <activity
             android:name=".EditorActivity"
-            android:label="EditorActivity"
+            android:label="Edit note"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

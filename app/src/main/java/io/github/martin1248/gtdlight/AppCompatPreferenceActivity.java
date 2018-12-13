@@ -20,6 +20,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;
 
+    //region PreferenceActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
@@ -95,6 +96,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         super.onDestroy();
         getDelegate().onDestroy();
     }
+    //endregion
 
     public void invalidateOptionsMenu() {
         getDelegate().invalidateOptionsMenu();
