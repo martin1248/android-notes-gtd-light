@@ -44,12 +44,25 @@ public class EditorActivity extends AppCompatActivity {
         editorProject = findViewById(R.id.editProject);
         editorDueDate = findViewById(R.id.editDueDate);
 
+        // Set adapter for drop down like ui types
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, states);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editorState.setAdapter(adapter);
+
+        ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, projects);
+        editorProject.setThreshold(1);
+        editorProject.setAdapter(adapterProjects);
+
+
         Intent intent = getIntent();
 
         Uri uri = intent.getParcelableExtra(NotesProvider.CONTENT_ITEM_TYPE);
         if(uri == null) {
             action = Intent.ACTION_INSERT;
             setTitle(R.string.new_note);
+
+            // STATE
+            editorState.setSelection(0);
         } else {
             action = Intent.ACTION_EDIT;
             noteFilter = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
@@ -67,12 +80,7 @@ public class EditorActivity extends AppCompatActivity {
             editorText.requestFocus();
 
             // STATE
-            //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, states);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, states);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            editorState.setAdapter(adapter);
             int position = Arrays.asList(states).indexOf(oldState);
-            Log.d("EditorActivity", "indexOf " + oldState + " result " + position);
             if (position >= 0) {
                 editorState.setSelection(position);
             } else {
@@ -80,9 +88,6 @@ public class EditorActivity extends AppCompatActivity {
             }
 
             // PROJECT
-            ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, projects);
-            editorProject.setThreshold(1);
-            editorProject.setAdapter(adapterProjects);
             editorProject.setText(oldProject);
 
             //DUE DATE
