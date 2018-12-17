@@ -19,6 +19,17 @@
         app:layout_constraintTop_toTopOf="@+id/editState" />
 
     <TextView
+        android:id="@+id/labelContext"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/context"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editContext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editContext" />
+
+    <TextView
         android:id="@+id/labelProject"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
@@ -51,6 +62,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
+        android:id="@+id/editContext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/enter_context_here"
+        app:layout_constraintStart_toEndOf="@+id/labelContext"
+        app:layout_constraintTop_toBottomOf="@+id/editState" />
+
+    <AutoCompleteTextView
         android:id="@+id/editProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +79,7 @@
         android:layout_marginTop="8dp"
         android:hint="@string/enter_project_here"
         app:layout_constraintStart_toEndOf="@+id/labelProject"
-        app:layout_constraintTop_toBottomOf="@+id/editState" />
+        app:layout_constraintTop_toBottomOf="@+id/editContext" />
 
     <EditText
         android:id="@+id/editDueDate"

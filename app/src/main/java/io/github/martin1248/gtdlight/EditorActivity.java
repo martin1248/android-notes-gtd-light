@@ -22,16 +22,19 @@ public class EditorActivity extends AppCompatActivity {
     private String action;
     private EditText editorText;
     private Spinner editorState;
+    private AutoCompleteTextView editorContext;
     private AutoCompleteTextView editorProject;
     private EditText editorDueDate;
     private String noteFilter;
     private String oldText;
     private String oldState;
+    private String oldContext;
     private String oldProject;
     private String oldDueDate;
 
     private String[] states = {"Inbox", "Next actions", "Calender", "Some day/maybe", "Waiting for", "Reference", "Trash"};
-    private String[] projects = {"Project 1", "Project 2", "Project 3"};
+    private String[] contexts = {".Home", ".Office", ".Shopping list"};
+    private String[] projects = {".Project 1", ".Project 2", ".Project 3"};
 
     //region AppCompat-, Fragment- and Activity
     @Override
@@ -41,6 +44,7 @@ public class EditorActivity extends AppCompatActivity {
 
         editorText = findViewById(R.id.editText);
         editorState = findViewById(R.id.editState);
+        editorContext = findViewById(R.id.editContext);
         editorProject = findViewById(R.id.editProject);
         editorDueDate = findViewById(R.id.editDueDate);
 
@@ -48,6 +52,10 @@ public class EditorActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, states);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editorState.setAdapter(adapter);
+
+        ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, contexts);
+        editorContext.setThreshold(1);
+        editorContext.setAdapter(adapterContexts);
 
         ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, projects);
         editorProject.setThreshold(1);
@@ -72,6 +80,7 @@ public class EditorActivity extends AppCompatActivity {
             cursor.moveToFirst();
             oldText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
             oldState = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_STATE));
+            oldContext = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_CONTEXT));
             oldProject = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_PROJECT));
             oldDueDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_DUEDATE));
 
@@ -86,6 +95,9 @@ public class EditorActivity extends AppCompatActivity {
             } else {
                 editorState.setSelection(0);
             }
+
+            // CONTEXT
+            editorContext.setText(oldContext);
 
             // PROJECT
             editorProject.setText(oldProject);
@@ -135,6 +147,7 @@ public class EditorActivity extends AppCompatActivity {
     private void finishEditing() {
         String newText = editorText.getText().toString().trim();
         String newState = editorState.getSelectedItem().toString();
+        String newContext = editorContext.getText().toString().trim();
         String newProject = editorProject.getText().toString().trim();
         String newDueDate = editorDueDate.getText().toString().trim();
         switch (action) {
@@ -142,26 +155,29 @@ public class EditorActivity extends AppCompatActivity {
                 if (newText.length() == 0) {
                     setResult(RESULT_CANCELED);
                 } else {
-                    insertNote(newText, newState, newProject, newDueDate);
+                    insertNote(newText, newState, newProject, newDueDate, newContext);
                 }
                 break;
             case Intent.ACTION_EDIT:
                 if (newText.length() == 0) {
                     deleteNote();
-                } else if (noteIsUnchanged(newText, newState, newProject, newDueDate)){
+                } else if (noteIsUnchanged(newText, newState, newProject, newDueDate, newContext)){
                     setResult(RESULT_CANCELED);
                 } else {
-                    updateNote(newText, newState, newProject, newDueDate);
+                    updateNote(newText, newState, newProject, newDueDate, newContext);
                 }
         }
         finish();
     }
 
-    private boolean noteIsUnchanged(String noteText, String noteState, String noteProject, String noteDueDate) {
+    private boolean noteIsUnchanged(String noteText, String noteState, String noteProject, String noteDueDate, String noteContext) {
         if (!(oldText == null ? noteText == null : oldText.equals(noteText))) {
             return false;
         }
         if (!(oldState == null ? noteState == null : oldState.equals(noteState))) {
+            return false;
+        }
+        if (!(oldContext == null ? noteContext == null : oldContext.equals(noteContext))) {
             return false;
         }
         if (!(oldProject == null ? noteProject == null : oldProject.equals(noteProject))) {
@@ -173,10 +189,11 @@ public class EditorActivity extends AppCompatActivity {
         return true;
     }
 
-    private void updateNote(String noteText, String noteState, String noteProject, String noteDueDate) {
+    private void updateNote(String noteText, String noteState, String noteProject, String noteDueDate, String noteContext) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.NOTE_TEXT, noteText);
         values.put(DBOpenHelper.NOTE_STATE, noteState);
+        values.put(DBOpenHelper.NOTE_CONTEXT, noteContext);
         values.put(DBOpenHelper.NOTE_PROJECT, noteProject);
         values.put(DBOpenHelper.NOTE_DUEDATE, noteDueDate);
         getContentResolver().update(NotesProvider.CONTENT_URI, values, noteFilter, null);
@@ -184,10 +201,11 @@ public class EditorActivity extends AppCompatActivity {
         setResult(RESULT_OK);
     }
 
-    private void insertNote(String noteText, String noteState, String noteProject, String noteDueDate) {
+    private void insertNote(String noteText, String noteState, String noteProject, String noteDueDate, String noteContext) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.NOTE_TEXT, noteText);
         values.put(DBOpenHelper.NOTE_STATE, noteState);
+        values.put(DBOpenHelper.NOTE_CONTEXT, noteContext);
         values.put(DBOpenHelper.NOTE_PROJECT, noteProject);
         values.put(DBOpenHelper.NOTE_DUEDATE, noteDueDate);
         getContentResolver().insert(NotesProvider.CONTENT_URI, values);

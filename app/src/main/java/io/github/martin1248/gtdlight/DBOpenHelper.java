@@ -11,7 +11,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     // DB Version history
     // DATABASE_VERSION = 1; -> ALL_COLUMNS = {NOTE_ID, NOTE_TEXT, NOTE_CREATED};
     // DATABASE_VERSION = 2; -> ALL_COLUMNS = {NOTE_ID, NOTE_TEXT, NOTE_CREATED, NOTE_STATE, NOTE_PROJECT, NOTE_DUEDATE};
-    private static final int DATABASE_VERSION = 2;
+    // DATABASE_VERSION = 3; -> ALL_COLUMNS = {NOTE_ID, NOTE_TEXT, NOTE_CREATED, NOTE_STATE, NOTE_CONTEXT, NOTE_PROJECT, NOTE_DUEDATE};
+    private static final int DATABASE_VERSION = 3;
 
     //Constants for identifying table and columns
     public static final String TABLE_NOTES = "notes";
@@ -19,10 +20,11 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String NOTE_TEXT = "noteText";
     public static final String NOTE_CREATED = "noteCreated";
     public static final String NOTE_STATE = "noteState";
+    public static final String NOTE_CONTEXT = "noteContext";
     public static final String NOTE_PROJECT = "noteProject";
     public static final String NOTE_DUEDATE = "noteDueDate";
 
-    public  static final String[] ALL_COLUMNS = {NOTE_ID, NOTE_TEXT, NOTE_CREATED, NOTE_STATE, NOTE_PROJECT, NOTE_DUEDATE};
+    public  static final String[] ALL_COLUMNS = {NOTE_ID, NOTE_TEXT, NOTE_CREATED, NOTE_STATE, NOTE_CONTEXT, NOTE_PROJECT, NOTE_DUEDATE};
 
     //SQL to create table
     private static final String TABLE_CREATE =
@@ -31,6 +33,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                     NOTE_TEXT + " TEXT, " +
                     NOTE_CREATED + " TEXT default CURRENT_TIMESTAMP, " +
                     NOTE_STATE + " TEXT, " +
+                    NOTE_CONTEXT + " TEXT, " +
                     NOTE_PROJECT + " TEXT, " +
                     NOTE_DUEDATE + " TEXT" +
                     ")";
