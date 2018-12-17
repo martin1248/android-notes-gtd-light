@@ -12,7 +12,8 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="State"
+        android:text="@string/state"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/editState"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editState" />
@@ -22,7 +23,8 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Project"
+        android:text="@string/project"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/editProject"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editProject" />
@@ -32,7 +34,8 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Due Date"
+        android:text="@string/due_date"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/editDueDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editDueDate" />
@@ -40,7 +43,7 @@
     <Spinner
         android:id="@+id/editState"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:hint="@string/enter_state_here"
@@ -75,6 +78,7 @@
         android:gravity="top"
         android:hint="@string/enter_note_here"
         android:inputType="textMultiLine|textCapSentences"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

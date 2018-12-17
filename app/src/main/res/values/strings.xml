@@ -97,4 +97,7 @@
     <string name="enter_due_date_here">Enter due date here</string>
     <string name="enter_project_here">Enter project here</string>
     <string name="enter_state_here">Enter state here</string>
+    <string name="state">State</string>
+    <string name="project">Project</string>
+    <string name="due_date">Due Date</string>
 </resources>

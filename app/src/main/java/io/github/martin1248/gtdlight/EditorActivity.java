@@ -67,7 +67,8 @@ public class EditorActivity extends AppCompatActivity {
             editorText.requestFocus();
 
             // STATE
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, states);
+            //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, states);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, states);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             editorState.setAdapter(adapter);
             int position = Arrays.asList(states).indexOf(oldState);
@@ -79,7 +80,7 @@ public class EditorActivity extends AppCompatActivity {
             }
 
             // PROJECT
-            ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, projects);
+            ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, projects);
             editorProject.setThreshold(1);
             editorProject.setAdapter(adapterProjects);
             editorProject.setText(oldProject);
