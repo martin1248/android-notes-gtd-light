@@ -41,7 +41,7 @@ public class EditorActivity extends AppCompatActivity implements
     Button btnDatePicker;
     private int mYear, mMonth, mDay;
 
-    private String[] states = {"Inbox", "Next actions", "Calender", "Some day/maybe", "Waiting for", "Reference", "Trash"};
+    private String[] states = {"Inbox", "Next actions", "Calender", "Waiting for", "Some day/maybe", "Reference", "Trash"};
     private String[] contexts = {".Home", ".Office", ".Shopping list"};
     private String[] projects = {".Project 1", ".Project 2", ".Project 3"};
 
@@ -61,6 +61,7 @@ public class EditorActivity extends AppCompatActivity implements
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, states);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editorState.setAdapter(adapter);
+        // Note: Consider using feature to make certain widgets invisible depending on the state. See editorState.setOnItemClickListener();
 
         ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, contexts);
         editorContext.setThreshold(1);
