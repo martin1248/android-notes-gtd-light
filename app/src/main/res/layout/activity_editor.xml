@@ -37,23 +37,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editDueDate" />
 
-    <EditText
+    <Spinner
         android:id="@+id/editState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/enter_note_here"
+        android:hint="@string/enter_state_here"
         app:layout_constraintStart_toEndOf="@+id/labelState"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/editProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/enter_note_here"
+        android:hint="@string/enter_project_here"
         app:layout_constraintStart_toEndOf="@+id/labelProject"
         app:layout_constraintTop_toBottomOf="@+id/editState" />
 
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/enter_note_here"
+        android:hint="@string/enter_due_date_here"
         app:layout_constraintStart_toEndOf="@+id/labelDueDate"
         app:layout_constraintTop_toBottomOf="@+id/editProject" />
 

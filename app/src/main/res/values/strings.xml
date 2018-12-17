@@ -94,4 +94,7 @@
     <string name="note">Note</string>
     <string name="enter_note_here">Enter note here</string>
     <string name="edite_note">Edit note</string>
+    <string name="enter_due_date_here">Enter due date here</string>
+    <string name="enter_project_here">Enter project here</string>
+    <string name="enter_state_here">Enter state here</string>
 </resources>
