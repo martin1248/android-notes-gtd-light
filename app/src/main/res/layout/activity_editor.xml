@@ -7,15 +7,77 @@
     android:padding="16dp"
     tools:context=".EditorActivity">
 
+    <TextView
+        android:id="@+id/textViewLabelState"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="State"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEditState"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewEditState" />
+
+    <TextView
+        android:id="@+id/textViewLabelProject"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Project"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEditProject"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewEditProject" />
+
+    <TextView
+        android:id="@+id/textViewLabelDueDate"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Due Date"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEditDueDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewEditDueDate" />
+
+    <EditText
+        android:id="@+id/textViewEditState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/enter_note_here"
+        app:layout_constraintStart_toEndOf="@+id/textViewLabelState"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/textViewEditProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/enter_note_here"
+        app:layout_constraintStart_toEndOf="@+id/textViewLabelProject"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEditState" />
+
+    <EditText
+        android:id="@+id/textViewEditDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/enter_note_here"
+        app:layout_constraintStart_toEndOf="@+id/textViewLabelDueDate"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEditProject" />
+
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:gravity="top"
+        android:hint="@string/enter_note_here"
+        android:inputType="textMultiLine|textCapSentences"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:hint="@string/enter_note_here"
-        android:inputType="textMultiLine|textCapSentences"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewEditDueDate" />
+
 </android.support.constraint.ConstraintLayout>
