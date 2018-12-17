@@ -41,7 +41,8 @@ public class EditorActivity extends AppCompatActivity implements
     Button btnDatePicker;
     private int mYear, mMonth, mDay;
 
-    private String[] states = {"Inbox", "Next actions", "Calender", "Waiting for", "Some day/maybe", "Reference", "Trash"};
+    //TODO Choose a better place
+    public static final String[] states = {"Inbox", "Next actions", "Calender", "Waiting for", "Some day/maybe", "Reference", "Trash"};
     private String[] contexts = {".Home", ".Office", ".Shopping list"};
     private String[] projects = {".Project 1", ".Project 2", ".Project 3"};
 

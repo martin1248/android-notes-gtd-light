@@ -8,9 +8,20 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <Spinner
+        android:id="@+id/chooseState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSpinnerMain"
+        android:hint="Choose state"
+        android:popupBackground="@color/colorSpinnerMain"
+        app:layout_constraintStart_toEndOf="@+id/labelState"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/chooseState" />
 
 </android.support.constraint.ConstraintLayout>

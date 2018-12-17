@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#002EAD</color>
     <color name="colorAccent">#A00000</color>
     <color name="colorListItemText">#333</color>
+    <color name="colorSpinnerMain">#00A0ED</color>
 </resources>

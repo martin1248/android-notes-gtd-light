@@ -30,8 +30,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     private static final int EDITOR_REQUEST_CODE = 1002;
     private boolean permissionGranted;
 
+    private Spinner chooseState;
+
     CursorAdapter cursorAdapter;
 
     //region AppCompat-, Fragment- and Activity
@@ -49,8 +53,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cursorAdapter = new NotesCursorAdapter(this, null, 0);
+        chooseState = findViewById(R.id.chooseState);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, EditorActivity.states);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        chooseState.setAdapter(adapter);
 
+
+        cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
         ListView list = findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
