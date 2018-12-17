@@ -36,6 +36,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -57,9 +59,21 @@ public class MainActivity extends AppCompatActivity
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, EditorActivity.states);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseState.setAdapter(adapter);
+        chooseState.setSelection(0);
+        chooseState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+              @Override
+              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                  restartLoader();
+              }
+
+              @Override
+              public void onNothingSelected(AdapterView<?> parent) {
+                  // Nothing is done
+              }
+            });
 
 
-        cursorAdapter = new NotesCursorAdapter(this, null, 0);
+                cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
         ListView list = findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
@@ -265,7 +279,10 @@ public class MainActivity extends AppCompatActivity
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
-        return new CursorLoader(this, NotesProvider.CONTENT_URI, null, null, null, null);
+        String state = EditorActivity.states[chooseState.getSelectedItemPosition()];
+        String selection = DBOpenHelper.NOTE_STATE + "='" + state+ "'";
+
+        return new CursorLoader(this, NotesProvider.CONTENT_URI, null, selection, null, null);
     }
 
     @Override
