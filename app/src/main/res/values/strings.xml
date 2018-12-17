@@ -102,4 +102,5 @@
     <string name="due_date">Due Date</string>
     <string name="context">Context</string>
     <string name="enter_context_here">Enter context here</string>
+    <string name="select_date">Select date</string>
 </resources>
