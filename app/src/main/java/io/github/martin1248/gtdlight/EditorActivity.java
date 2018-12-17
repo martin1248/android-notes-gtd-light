@@ -14,9 +14,15 @@ import android.widget.Toast;
 public class EditorActivity extends AppCompatActivity {
 
     private String action;
-    private EditText editor;
+    private EditText editorText;
+    private EditText editorState;
+    private EditText editorProject;
+    private EditText editorDueDate;
     private String noteFilter;
     private String oldText;
+    private String oldState;
+    private String oldProject;
+    private String oldDueDate;
 
     //region AppCompat-, Fragment- and Activity
     @Override
@@ -24,7 +30,10 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        editor = findViewById(R.id.editText);
+        editorText = findViewById(R.id.editText);
+        editorState = findViewById(R.id.editState);
+        editorProject = findViewById(R.id.editProject);
+        editorDueDate = findViewById(R.id.editDueDate);
 
         Intent intent = getIntent();
 
@@ -40,8 +49,14 @@ public class EditorActivity extends AppCompatActivity {
                     DBOpenHelper.ALL_COLUMNS, noteFilter, null,null);
             cursor.moveToFirst();
             oldText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
-            editor.setText(oldText);
-            editor.requestFocus();
+            oldState = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_STATE));
+            oldProject = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_PROJECT));
+            oldDueDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_DUEDATE));
+            editorText.setText(oldText);
+            editorText.requestFocus();
+            editorState.setText(oldState);
+            editorProject.setText(oldProject);
+            editorDueDate.setText(oldDueDate);
         }
     }
 
@@ -83,38 +98,63 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void finishEditing() {
-        String newText = editor.getText().toString().trim();
+        String newText = editorText.getText().toString().trim();
+        String newState = editorState.getText().toString().trim();
+        String newProject = editorProject.getText().toString().trim();
+        String newDueDate = editorDueDate.getText().toString().trim();
         switch (action) {
             case Intent.ACTION_INSERT:
                 if (newText.length() == 0) {
                     setResult(RESULT_CANCELED);
                 } else {
-                    insertNote(newText);
+                    insertNote(newText, newState, newProject, newDueDate);
                 }
                 break;
             case Intent.ACTION_EDIT:
                 if (newText.length() == 0) {
                     deleteNote();
-                } else if (oldText.equals(newText)){
+                } else if (noteIsUnchanged(newText, newState, newProject, newDueDate)){
                     setResult(RESULT_CANCELED);
                 } else {
-                    updateNote(newText);
+                    updateNote(newText, newState, newProject, newDueDate);
                 }
         }
         finish();
     }
 
-    private void updateNote(String noteText) {
+    private boolean noteIsUnchanged(String noteText, String noteState, String noteProject, String noteDueDate) {
+        if (!(oldText == null ? noteText == null : oldText.equals(noteText))) {
+            return false;
+        }
+        if (!(oldState == null ? noteState == null : oldState.equals(noteState))) {
+            return false;
+        }
+        if (!(oldProject == null ? noteProject == null : oldProject.equals(noteProject))) {
+            return false;
+        }
+        if (!(oldDueDate == null ? noteDueDate == null : oldDueDate.equals(noteDueDate))) {
+            return false;
+        }
+        return true;
+    }
+
+    private void updateNote(String noteText, String noteState, String noteProject, String noteDueDate) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.NOTE_TEXT, noteText);
+        values.put(DBOpenHelper.NOTE_STATE, noteState);
+        values.put(DBOpenHelper.NOTE_PROJECT, noteProject);
+        values.put(DBOpenHelper.NOTE_DUEDATE, noteDueDate);
         getContentResolver().update(NotesProvider.CONTENT_URI, values, noteFilter, null);
         Toast.makeText(this,getString(R.string.note_updated), Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
     }
 
-    private void insertNote(String noteText) {
+    private void insertNote(String noteText, String noteState, String noteProject, String noteDueDate) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.NOTE_TEXT, noteText);
+        values.put(DBOpenHelper.NOTE_STATE, noteState);
+        values.put(DBOpenHelper.NOTE_PROJECT, noteProject);
+        values.put(DBOpenHelper.NOTE_DUEDATE, noteDueDate);
         getContentResolver().insert(NotesProvider.CONTENT_URI, values);
         setResult(RESULT_OK);
     }

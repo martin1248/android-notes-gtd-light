@@ -8,64 +8,64 @@
     tools:context=".EditorActivity">
 
     <TextView
-        android:id="@+id/textViewLabelState"
+        android:id="@+id/labelState"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="State"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewEditState"
+        app:layout_constraintBottom_toBottomOf="@+id/editState"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewEditState" />
+        app:layout_constraintTop_toTopOf="@+id/editState" />
 
     <TextView
-        android:id="@+id/textViewLabelProject"
+        android:id="@+id/labelProject"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Project"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewEditProject"
+        app:layout_constraintBottom_toBottomOf="@+id/editProject"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewEditProject" />
+        app:layout_constraintTop_toTopOf="@+id/editProject" />
 
     <TextView
-        android:id="@+id/textViewLabelDueDate"
+        android:id="@+id/labelDueDate"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Due Date"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewEditDueDate"
+        app:layout_constraintBottom_toBottomOf="@+id/editDueDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewEditDueDate" />
+        app:layout_constraintTop_toTopOf="@+id/editDueDate" />
 
     <EditText
-        android:id="@+id/textViewEditState"
+        android:id="@+id/editState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:hint="@string/enter_note_here"
-        app:layout_constraintStart_toEndOf="@+id/textViewLabelState"
+        app:layout_constraintStart_toEndOf="@+id/labelState"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/textViewEditProject"
+        android:id="@+id/editProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:hint="@string/enter_note_here"
-        app:layout_constraintStart_toEndOf="@+id/textViewLabelProject"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEditState" />
+        app:layout_constraintStart_toEndOf="@+id/labelProject"
+        app:layout_constraintTop_toBottomOf="@+id/editState" />
 
     <EditText
-        android:id="@+id/textViewEditDueDate"
+        android:id="@+id/editDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:hint="@string/enter_note_here"
-        app:layout_constraintStart_toEndOf="@+id/textViewLabelDueDate"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEditProject" />
+        app:layout_constraintStart_toEndOf="@+id/labelDueDate"
+        app:layout_constraintTop_toBottomOf="@+id/editProject" />
 
     <EditText
         android:id="@+id/editText"
@@ -78,6 +78,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEditDueDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editDueDate" />
 
 </android.support.constraint.ConstraintLayout>
