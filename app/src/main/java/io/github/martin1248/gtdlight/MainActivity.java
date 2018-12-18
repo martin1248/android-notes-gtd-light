@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity
 
     CursorAdapter cursorAdapter;
 
+    // Note - feature: Consider using SwipeLayout
+    //      https://github.com/daimajia/AndroidSwipeLayout
+    //      https://github.com/daimajia/AndroidSwipeLayout/wiki/usage
+
     //region AppCompat-, Fragment- and Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
