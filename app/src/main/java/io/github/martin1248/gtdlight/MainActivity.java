@@ -55,10 +55,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chooseState = findViewById(R.id.chooseState);
+        //chooseState = findViewById(R.id.chooseState);
+        chooseState = findViewById(R.id.spinner_nav);
+        //spinner_nav
         // Note: Feature special states like all, checked
         // Note: Featere - Consider a project view
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, EditorActivity.states);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_nav, EditorActivity.states);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseState.setAdapter(adapter);
         chooseState.setSelection(0);
