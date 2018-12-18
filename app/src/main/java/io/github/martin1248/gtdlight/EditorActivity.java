@@ -42,8 +42,9 @@ public class EditorActivity extends AppCompatActivity implements
     private int mYear, mMonth, mDay;
 
     //TODO Choose a better place
-    public static final String[] states = {"Inbox", "Next actions", "Calender", "Waiting for", "Some day/maybe", "Reference", "Trash"};
-    private String[] contexts = {".Home", ".Office", ".Shopping list"};
+    public static final String[] states = {"Inbox", "Next actions", "Calender", "Waiting for", "Some day/maybe", "Reference", "Trash", "Done"};
+    private String[] contexts = {"Home", "Office", "Phone", "Computer", "Shopping", "Errands" , "Agendas",
+            " Home", " Office", " Phone", " Computer", " Shopping", " Errands" , " Agendas"};
     private String[] projects = {".Project 1", ".Project 2", ".Project 3"};
 
     //region AppCompat-, Fragment- and Activity
@@ -63,6 +64,7 @@ public class EditorActivity extends AppCompatActivity implements
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editorState.setAdapter(adapter);
         // Note: Consider using feature to make certain widgets invisible depending on the state. See editorState.setOnItemClickListener();
+
 
         ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, contexts);
         editorContext.setThreshold(1);

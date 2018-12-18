@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     private boolean permissionGranted;
 
     private static final String allStatesKeyword = "All";
-    private static final String[] statesExtended = {"Done", allStatesKeyword};
+    private static final String[] statesExtended = {allStatesKeyword};
     private static final String[] statesAll = Stream.concat(Arrays.stream(EditorActivity.states), Arrays.stream(statesExtended))
             .toArray(String[]::new); // Note: Requires Java 8
     private Spinner chooseState;
