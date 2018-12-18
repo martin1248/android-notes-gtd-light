@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity
     private static final int EDITOR_REQUEST_CODE = 1002;
     private boolean permissionGranted;
 
+    private static final String allStatesKeyword = "All";
+    private static final String[] statesExtended = {"Done", allStatesKeyword};
+    private static final String[] statesAll = Stream.concat(Arrays.stream(EditorActivity.states), Arrays.stream(statesExtended))
+            .toArray(String[]::new); // Note: Requires Java 8
     private Spinner chooseState;
 
     CursorAdapter cursorAdapter;
@@ -55,12 +60,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //chooseState = findViewById(R.id.chooseState);
         chooseState = findViewById(R.id.spinner_nav);
-        //spinner_nav
-        // Note: Feature special states like all, checked
         // Note: Featere - Consider a project view
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_nav, EditorActivity.states);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_nav, statesAll);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseState.setAdapter(adapter);
         chooseState.setSelection(0);
@@ -283,9 +285,13 @@ public class MainActivity extends AppCompatActivity
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
-        String state = EditorActivity.states[chooseState.getSelectedItemPosition()];
-        String selection = DBOpenHelper.NOTE_STATE + "='" + state+ "'";
+        String state = statesAll[chooseState.getSelectedItemPosition()];
 
+        if (allStatesKeyword.equals(state)) {
+            return new CursorLoader(this, NotesProvider.CONTENT_URI, null, null, null, null);
+        }
+
+        String selection = DBOpenHelper.NOTE_STATE + "='" + state+ "'";
         return new CursorLoader(this, NotesProvider.CONTENT_URI, null, selection, null, null);
     }
 
