@@ -86,6 +86,9 @@ public class EditorActivity extends AppCompatActivity implements
 
             // STATE
             editorState.setSelection(0);
+
+            // TEXT
+            editorText.requestFocus();
         } else {
             action = Intent.ACTION_EDIT;
             noteFilter = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
@@ -98,10 +101,6 @@ public class EditorActivity extends AppCompatActivity implements
             oldContext = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_CONTEXT));
             oldProject = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_PROJECT));
             oldDueDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_DUEDATE));
-
-            // TEXT
-            editorText.setText(oldText);
-            editorText.requestFocus();
 
             // STATE
             int position = Arrays.asList(states).indexOf(oldState);
@@ -117,8 +116,12 @@ public class EditorActivity extends AppCompatActivity implements
             // PROJECT
             editorProject.setText(oldProject);
 
-            //DUE DATE
+            // DUE DATE
             editorDueDate.setText(oldDueDate);
+
+            // TEXT
+            editorText.setText(oldText);
+            editorText.requestFocus();
         }
     }
 
