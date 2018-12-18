@@ -285,14 +285,19 @@ public class MainActivity extends AppCompatActivity
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
-        String state = statesAll[chooseState.getSelectedItemPosition()];
-
-        if (allStatesKeyword.equals(state)) {
-            return new CursorLoader(this, NotesProvider.CONTENT_URI, null, null, null, null);
+        String selectedState = statesAll[chooseState.getSelectedItemPosition()];
+        String selection = DBOpenHelper.NOTE_STATE + "='" + selectedState+ "'";
+        String sortOrder = null;
+        if (allStatesKeyword.equals(selectedState)) {
+            selection = null;
         }
 
-        String selection = DBOpenHelper.NOTE_STATE + "='" + state+ "'";
-        return new CursorLoader(this, NotesProvider.CONTENT_URI, null, selection, null, null);
+        //TODO Hardcoded
+        if (selectedState.equals("Calender")) {
+            sortOrder = DBOpenHelper.NOTE_DUEDATE + " ASC";
+        }
+
+        return new CursorLoader(this, NotesProvider.CONTENT_URI, null, selection, null, sortOrder);
     }
 
     @Override

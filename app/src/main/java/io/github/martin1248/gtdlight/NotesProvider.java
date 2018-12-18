@@ -43,7 +43,12 @@ public class NotesProvider extends ContentProvider {
             selection = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
         }
 
-        return database.query(DBOpenHelper.TABLE_NOTES, DBOpenHelper.ALL_COLUMNS, selection, null, null, null,DBOpenHelper.NOTE_CREATED + " DESC");
+        String defaultSortOrder = DBOpenHelper.NOTE_CREATED + " DESC";
+        if (sortOrder != null) {
+            defaultSortOrder = sortOrder;
+        }
+
+        return database.query(DBOpenHelper.TABLE_NOTES, DBOpenHelper.ALL_COLUMNS, selection, null, null, null, defaultSortOrder);
     }
 
     @Override
