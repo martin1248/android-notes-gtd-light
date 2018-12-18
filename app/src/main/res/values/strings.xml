@@ -103,4 +103,6 @@
     <string name="context">Context</string>
     <string name="enter_context_here">Enter context here</string>
     <string name="select_date">Select date</string>
+    <string name="delete">Delete</string>
+    <string name="check">Check</string>
 </resources>

@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class NotesCursorAdapter extends CursorAdapter{
+    private Context context;
 
     public NotesCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
+        this.context = context;
     }
 
     //region CursorAdapter
@@ -36,6 +39,27 @@ public class NotesCursorAdapter extends CursorAdapter{
 
         TextView tv = view.findViewById(R.id.tvNote);
         tv.setText(noteText);
+
+        ImageButton checkBtn = (ImageButton)view.findViewById(R.id.btnCheck);
+        ImageButton deleteBtn = (ImageButton)view.findViewById(R.id.btnDelete);
+
+        checkBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //do something
+                Log.d("MainActivity", " ### checkBtn");
+                notifyDataSetChanged();
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //do something
+                Log.d("MainActivity", " ### deleteBtn");
+                notifyDataSetChanged();
+            }
+        });
     }
     //endregion
 }

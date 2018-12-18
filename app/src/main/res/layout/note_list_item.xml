@@ -3,36 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants"
     android:padding="4dp">
 
-    <ImageView
-        android:id="@+id/imageDocIcon"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_margin="9dp"
+    <ImageButton
+        android:id="@+id/btnCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:src="@drawable/ic_action_check"
-        android:contentDescription="@string/note"/>
+        android:contentDescription="@string/check"/>
 
     <TextView
         android:id="@+id/tvNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:layout_toEndOf="@+id/imageDocIcon"
-        android:layout_toStartOf="@+id/imageDocIcon2"
+        android:layout_toEndOf="@+id/btnCheck"
+        android:layout_toStartOf="@+id/btnDelete"
         android:singleLine="true"
         android:text="Dummy Text"
         android:textColor="@color/colorListItemText"
         android:textSize="18sp" />
 
-    <ImageView
-        android:id="@+id/imageDocIcon2"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_margin="9dp"
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_action_clear"
-        android:contentDescription="@string/note"/>
+        android:contentDescription="@string/delete"/>
 
 </RelativeLayout>
