@@ -15,6 +15,7 @@ Main Activity
  - Use RecyclerView instead of ListView
  - Apply Model concept
  - Learn about content resolver (DBHelper might not be necessary by understand ContentResolver)
+ - Is there a better solution then implemented array concatination?
 
 --------- Additional features ------------------------
  - Refactored so that the user can not switch from next action state to inbox

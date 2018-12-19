@@ -28,7 +28,7 @@ public class DBHelper {
             while (mCursor.moveToNext()) {
                 String value = mCursor.getString(indexContext);
                 if(value != null && !value.equals("")) {
-                    values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
+                    values.add(value);
                 }
             }
         }

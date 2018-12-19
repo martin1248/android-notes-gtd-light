@@ -38,6 +38,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -52,11 +53,16 @@ public class MainActivity extends AppCompatActivity
     private static final int EDITOR_REQUEST_CODE = 1002;
     private boolean permissionGranted;
 
+    private static final String noFilterKeyword = "No filter";
+    private String[] currentContexts;
+    private String[] currentProjects;
     private static final String allStatesKeyword = "All";
     private static final String[] statesExtended = {allStatesKeyword};
     private static final String[] statesAll = Stream.concat(Arrays.stream(GTDStates.gtdStates), Arrays.stream(statesExtended))
             .toArray(String[]::new); // Note: Requires Java 8
     private Spinner chooseState;
+    private Spinner filterContext;
+    private Spinner filterProjects;
 
     CursorAdapter cursorAdapter;
 
@@ -83,7 +89,8 @@ public class MainActivity extends AppCompatActivity
               }
             });
 
-
+        filterContext = findViewById(R.id.filterContext);
+        filterProjects = findViewById(R.id.filterProject);
         reloadFilter();
 
         cursorAdapter = new NotesCursorAdapter(this, null, 0);
@@ -135,15 +142,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void reloadFilter() {
-        Spinner filterContext = findViewById(R.id.filterContext);
-        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, DBHelper.getContexts(getContentResolver()));
+        int selectedContext = filterContext.getSelectedItemPosition();
+        int selectedProject = filterProjects.getSelectedItemPosition();
+
+        String[] noFilterArray = {noFilterKeyword};
+        String[] contexts = DBHelper.getContexts(getContentResolver());
+        String[] projects = DBHelper.getProjects(getContentResolver());
+        currentContexts = Stream.concat(Arrays.stream(noFilterArray), Arrays.stream(contexts))
+                .toArray(String[]::new);
+        currentProjects = Stream.concat(Arrays.stream(noFilterArray), Arrays.stream(projects))
+                .toArray(String[]::new);
+
+        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, currentContexts);
         adapterFilterContext.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterContext.setAdapter(adapterFilterContext);
 
-        Spinner filterProjects = findViewById(R.id.filterProject);
-        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_item, DBHelper.getProjects(getContentResolver()));
+        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_item, currentProjects);
         adapterFilterProject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterProjects.setAdapter(adapterFilterProject);
+
+        if(selectedContext >= 0) {
+            filterContext.setSelection(selectedContext); // This is buggy in case of a new context
+        }
+        if (selectedProject >= 0) {
+            filterProjects.setSelection(selectedProject);
+        }
     }
 
     @Override
@@ -247,6 +270,7 @@ public class MainActivity extends AppCompatActivity
     private void restartLoader() {
         getSupportLoaderManager().restartLoader(0,null,this);
         reloadFilter();
+        Log.d("MainAc", " ### restart loader");
     }
 
     // Checks if external storage is available for read and write
@@ -306,20 +330,36 @@ public class MainActivity extends AppCompatActivity
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
-        String selectedState = statesAll[chooseState.getSelectedItemPosition()];
-        String selection = DBOpenHelper.NOTE_STATE + "='" + selectedState+ "'";
+        String selection = "";
         String sortOrder = null;
-        if (allStatesKeyword.equals(selectedState)) {
-            selection = null;
+        String selectedState = statesAll[chooseState.getSelectedItemPosition()];
+        String selectedContext = currentContexts[filterContext.getSelectedItemPosition()];
+        String selectedProject = currentProjects[filterProjects.getSelectedItemPosition()];
+
+        ArrayList<String> whereMatches = new ArrayList<>();
+        if (!selectedState.equals(allStatesKeyword)) {
+            whereMatches.add(DBOpenHelper.NOTE_STATE + "='" + selectedState+ "'");
         }
+        if (!selectedContext.equals(noFilterKeyword)) {
+            whereMatches.add(DBOpenHelper.NOTE_CONTEXT + "='" + selectedContext+ "'");
+        }
+        if (!selectedProject.equals(noFilterKeyword)) {
+            whereMatches.add(DBOpenHelper.NOTE_PROJECT + "='" + selectedProject+ "'");
+        }
+
+        boolean removeTrailingAnd = false;
+        for (String whereMatch: whereMatches) {
+            selection += whereMatch + " AND ";
+            removeTrailingAnd = true;
+        }
+        if (removeTrailingAnd) {
+            selection = selection.substring(0, selection.length() - 5);
+        }
+        Log.d("Main", "Selection is " + selection);
 
         if (selectedState.equals(GTDStates.stateCalender)) {
             sortOrder = DBOpenHelper.NOTE_DUEDATE + " ASC";
         }
-
-        Context c1 = this;
-        Context c2 = getApplicationContext();
-        Context c3 = getBaseContext();
 
         return new CursorLoader(this, NotesProvider.CONTENT_URI, null, selection, null, sortOrder);
     }
