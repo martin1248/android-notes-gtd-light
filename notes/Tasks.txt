@@ -8,9 +8,6 @@ Main Activity
    - UI: Show context and projects in list view
    - Buttons: Implement method body 
 
-Editor Activity
- - Refactore context and projects: fetch from DB and make them editable
-
 
 
 --------- ??? -------------
