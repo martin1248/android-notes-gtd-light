@@ -3,10 +3,7 @@ Tasks
 --------- Minimum, useable and presentable ------------
 Main Activity
  - Toolbar: Spinner in toolbar does not look smooth
- - Filter context and projects in list view (db where clause)
- - ListView:
-   - UI: Show context and projects in list view
-   - Buttons: Implement method body 
+ - ListView: Buttons: Implement method body 
 
 
 
