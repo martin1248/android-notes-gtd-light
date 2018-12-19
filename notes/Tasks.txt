@@ -1,7 +1,14 @@
 Tasks
 
 --------- Minimum, useable and presentable ------------
+Know How:
+ - Spinner
+ - RecylcerView
+
 Main Activity
+ - Filter: 
+   - When selecting filter then reload
+   - Filter style does bot fit into design
  - Toolbar: Spinner in toolbar does not look smooth
  - ListView: Buttons: Implement method body 
 
@@ -9,6 +16,7 @@ Main Activity
 
 --------- ??? -------------
  - Refactored setting due date
+ - Hide/show filter on additional filter button click
  - Use RecyclerView instead of ListView
  - Apply Model concept
  - Learn about content resolver (DBHelper might not be necessary by understand ContentResolver)
