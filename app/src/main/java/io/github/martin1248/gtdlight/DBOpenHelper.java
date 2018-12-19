@@ -46,8 +46,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE);
-        // Note: Check database file creation by using android device monitor:
-        //          /Library/Android/sdk/tools/lib/monitor-x86_64/monitor.app
     }
 
     @Override
