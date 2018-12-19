@@ -185,7 +185,7 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     private String[] getAllValuesFromTableColumn(String tableColumn) {
-        Set<String> contexts = new ArraySet<>();
+        Set<String> values = new ArraySet<>();
         Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
         int indexContext = mCursor.getColumnIndex(tableColumn);
         if (mCursor == null) {
@@ -194,10 +194,12 @@ public class EditorActivity extends AppCompatActivity implements
             Log.d("EditorActivity", "No notes");
         } else {
             while (mCursor.moveToNext()) {
-                contexts.add(mCursor.getString(indexContext));
+                String value = mCursor.getString(indexContext);
+                //values.add(value);
+                values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
             }
         }
-        return contexts.toArray(new String[]{});
+        return values.toArray(new String[]{});
     }
 
     private void deleteNote() {
