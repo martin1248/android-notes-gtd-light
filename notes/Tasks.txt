@@ -13,7 +13,8 @@ Main Activity
 --------- ??? -------------
  - Refactored setting due date
  - Use RecyclerView instead of ListView
- - Apply Model concept 
+ - Apply Model concept
+ - Learn about content resolver (DBHelper might not be necessary by understand ContentResolver)
 
 --------- Additional features ------------------------
  - Refactored so that the user can not switch from next action state to inbox

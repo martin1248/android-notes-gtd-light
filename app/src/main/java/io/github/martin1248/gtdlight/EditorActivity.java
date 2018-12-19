@@ -62,11 +62,11 @@ public class EditorActivity extends AppCompatActivity implements
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editorState.setAdapter(adapter);
 
-        ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, getContexts());
+        ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, DBHelper.getContexts(getContentResolver()));
         editorContext.setThreshold(1);
         editorContext.setAdapter(adapterContexts);
 
-        ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, getProjects());
+        ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, DBHelper.getProjects(getContentResolver()));
         editorProject.setThreshold(1);
         editorProject.setAdapter(adapterProjects);
 
@@ -176,32 +176,6 @@ public class EditorActivity extends AppCompatActivity implements
         datePickerDialog.show();
     }
     //endregion
-
-    private String[] getContexts() {
-        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_CONTEXT);
-    }
-
-    private String[] getProjects() {
-        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_PROJECT);
-    }
-
-    private String[] getAllValuesFromTableColumn(String tableColumn) {
-        Set<String> values = new TreeSet<>();
-        Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
-        int indexContext = mCursor.getColumnIndex(tableColumn);
-        if (mCursor == null) {
-            Log.e("EditorActivity", "Failed to query notes");
-        } else if (mCursor.getCount() < 1) {
-            Log.d("EditorActivity", "No notes");
-        } else {
-            while (mCursor.moveToNext()) {
-                String value = mCursor.getString(indexContext);
-                //values.add(value);
-                values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
-            }
-        }
-        return values.toArray(new String[]{});
-    }
 
     private void deleteNote() {
         getContentResolver().delete(NotesProvider.CONTENT_URI, noteFilter, null);

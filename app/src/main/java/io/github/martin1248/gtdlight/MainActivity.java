@@ -3,6 +3,7 @@ package io.github.martin1248.gtdlight;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -135,12 +136,12 @@ public class MainActivity extends AppCompatActivity
 
     private void reloadFilter() {
         Spinner filterContext = findViewById(R.id.filterContext);
-        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, getContexts());
+        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, DBHelper.getContexts(getContentResolver()));
         adapterFilterContext.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterContext.setAdapter(adapterFilterContext);
 
         Spinner filterProjects = findViewById(R.id.filterProject);
-        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_item, getProjects());
+        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_item, DBHelper.getProjects(getContentResolver()));
         adapterFilterProject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterProjects.setAdapter(adapterFilterProject);
     }
@@ -201,34 +202,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
     //endregion
-
-    // TODO remove code duplication
-    private String[] getContexts() {
-        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_CONTEXT);
-    }
-
-    private String[] getProjects() {
-        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_PROJECT);
-    }
-
-    private String[] getAllValuesFromTableColumn(String tableColumn) {
-        Set<String> values = new TreeSet<>();
-        Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
-        int indexContext = mCursor.getColumnIndex(tableColumn);
-        if (mCursor == null) {
-            Log.e("MainActivity", "Failed to query notes");
-        } else if (mCursor.getCount() < 1) {
-            Log.d("MainActivity", "No notes");
-        } else {
-            while (mCursor.moveToNext()) {
-                String value = mCursor.getString(indexContext);
-                if(value != null && !value.equals("")) {
-                    values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
-                }
-            }
-        }
-        return values.toArray(new String[]{});
-    }
 
     private void insertNote(String newNote) {
         ContentValues values = new ContentValues();
@@ -343,6 +316,10 @@ public class MainActivity extends AppCompatActivity
         if (selectedState.equals(GTDStates.stateCalender)) {
             sortOrder = DBOpenHelper.NOTE_DUEDATE + " ASC";
         }
+
+        Context c1 = this;
+        Context c2 = getApplicationContext();
+        Context c3 = getBaseContext();
 
         return new CursorLoader(this, NotesProvider.CONTENT_URI, null, selection, null, sortOrder);
     }

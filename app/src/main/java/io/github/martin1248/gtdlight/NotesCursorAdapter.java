@@ -11,11 +11,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class NotesCursorAdapter extends CursorAdapter{
-    private Context context;
 
     public NotesCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
-        this.context = context;
     }
 
     //region CursorAdapter
