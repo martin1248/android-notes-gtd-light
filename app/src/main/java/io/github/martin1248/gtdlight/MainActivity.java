@@ -54,10 +54,6 @@ public class MainActivity extends AppCompatActivity
 
     CursorAdapter cursorAdapter;
 
-    // Note - feature: Consider using SwipeLayout
-    //      https://github.com/daimajia/AndroidSwipeLayout
-    //      https://github.com/daimajia/AndroidSwipeLayout/wiki/usage
-
     //region AppCompat-, Fragment- and Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         chooseState = findViewById(R.id.spinner_nav);
-        // Note: Featere - Consider a project view
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_nav, statesAll);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseState.setAdapter(adapter);

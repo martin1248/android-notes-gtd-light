@@ -1,0 +1,16 @@
+Tasks
+
+--------- Minimum, useable and presentable ------------
+ - UI: Spinner in toolbar doe snot look smooth
+ - Refactore states: Better place
+ - Refactore context and projects: fetch from DB and make them editable
+
+--------- Additional features ------------------------
+ - Split notes table into additional context and project tables
+          https://github.com/daimajia/AndroidSwipeLayout
+          https://github.com/daimajia/AndroidSwipeLayout/wiki/usage
+   - Context and Project view
+   - Context and Project editing
+ - UI: Use third party Swipe Layout
+ - UI: onsider using feature to make certain widgets invisible depending on the state. See editorState.setOnItemClickListener();
+
