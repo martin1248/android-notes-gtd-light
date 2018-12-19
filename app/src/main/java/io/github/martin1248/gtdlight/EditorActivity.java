@@ -121,7 +121,7 @@ public class EditorActivity extends AppCompatActivity implements
             editorText.requestFocus();
         }
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (action.equals(Intent.ACTION_EDIT)) {
@@ -145,7 +145,7 @@ public class EditorActivity extends AppCompatActivity implements
 
         return true;
     }
-
+*/
     @Override
     public void onBackPressed() {
         finishEditing();

@@ -1,9 +1,14 @@
 Tasks
 
 --------- Minimum, useable and presentable ------------
- - UI: Spinner in toolbar doe snot look smooth
+ - UI: Spinner in toolbar does not look smooth
  - Refactore states: Better place
  - Refactore context and projects: fetch from DB and make them editable
+
+
+--------- ??? -------------
+ - Refactored setting due date
+ - Use RecyclerView instead of ListView
 
 --------- Additional features ------------------------
  - Split notes table into additional context and project tables
