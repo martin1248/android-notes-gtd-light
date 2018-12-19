@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import io.github.martin1248.gtdlight.model.GTDStates;
@@ -82,12 +83,7 @@ public class MainActivity extends AppCompatActivity
             });
 
 
-
-        Spinner filterContext = findViewById(R.id.filterContext);
-        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, getContexts());
-        adapterFilterContext.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        filterContext.setAdapter(adapterFilterContext);
-
+        reloadFilter();
 
         cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
@@ -135,6 +131,18 @@ public class MainActivity extends AppCompatActivity
             checkPermissions();
             return;
         }
+    }
+
+    private void reloadFilter() {
+        Spinner filterContext = findViewById(R.id.filterContext);
+        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, getContexts());
+        adapterFilterContext.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterContext.setAdapter(adapterFilterContext);
+
+        Spinner filterProjects = findViewById(R.id.filterProject);
+        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_item, getProjects());
+        adapterFilterProject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterProjects.setAdapter(adapterFilterProject);
     }
 
     @Override
@@ -199,8 +207,12 @@ public class MainActivity extends AppCompatActivity
         return getAllValuesFromTableColumn(DBOpenHelper.NOTE_CONTEXT);
     }
 
+    private String[] getProjects() {
+        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_PROJECT);
+    }
+
     private String[] getAllValuesFromTableColumn(String tableColumn) {
-        Set<String> values = new ArraySet<>();
+        Set<String> values = new TreeSet<>();
         Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
         int indexContext = mCursor.getColumnIndex(tableColumn);
         if (mCursor == null) {
@@ -210,8 +222,9 @@ public class MainActivity extends AppCompatActivity
         } else {
             while (mCursor.moveToNext()) {
                 String value = mCursor.getString(indexContext);
-                //values.add(value);
-                values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
+                if(value != null && !value.equals("")) {
+                    values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
+                }
             }
         }
         return values.toArray(new String[]{});
@@ -260,6 +273,7 @@ public class MainActivity extends AppCompatActivity
 
     private void restartLoader() {
         getSupportLoaderManager().restartLoader(0,null,this);
+        reloadFilter();
     }
 
     // Checks if external storage is available for read and write

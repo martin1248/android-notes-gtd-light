@@ -14,11 +14,17 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Spinner
+        android:id="@+id/filterProject"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/filterContext"/>
+
     <ListView
         android:id="@+id/android:list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filterContext" />
+        app:layout_constraintTop_toBottomOf="@+id/filterProject" />
 
 </android.support.constraint.ConstraintLayout>

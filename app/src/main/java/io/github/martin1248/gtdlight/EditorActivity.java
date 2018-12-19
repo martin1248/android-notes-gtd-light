@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static io.github.martin1248.gtdlight.model.GTDStates.gtdStates;
 
@@ -185,7 +186,7 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     private String[] getAllValuesFromTableColumn(String tableColumn) {
-        Set<String> values = new ArraySet<>();
+        Set<String> values = new TreeSet<>();
         Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
         int indexContext = mCursor.getColumnIndex(tableColumn);
         if (mCursor == null) {
