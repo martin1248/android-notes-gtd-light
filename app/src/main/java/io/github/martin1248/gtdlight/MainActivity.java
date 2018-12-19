@@ -25,6 +25,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import io.github.martin1248.gtdlight.model.GTDStates;
@@ -80,7 +82,14 @@ public class MainActivity extends AppCompatActivity
             });
 
 
-                cursorAdapter = new NotesCursorAdapter(this, null, 0);
+
+        Spinner filterContext = findViewById(R.id.filterContext);
+        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, getContexts());
+        adapterFilterContext.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterContext.setAdapter(adapterFilterContext);
+
+
+        cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
         ListView list = findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
@@ -184,6 +193,29 @@ public class MainActivity extends AppCompatActivity
         }
     }
     //endregion
+
+    // TODO remove code duplication
+    private String[] getContexts() {
+        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_CONTEXT);
+    }
+
+    private String[] getAllValuesFromTableColumn(String tableColumn) {
+        Set<String> values = new ArraySet<>();
+        Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
+        int indexContext = mCursor.getColumnIndex(tableColumn);
+        if (mCursor == null) {
+            Log.e("MainActivity", "Failed to query notes");
+        } else if (mCursor.getCount() < 1) {
+            Log.d("MainActivity", "No notes");
+        } else {
+            while (mCursor.moveToNext()) {
+                String value = mCursor.getString(indexContext);
+                //values.add(value);
+                values.add(" " + value); // TRICK: With this line by pressing space in TextView all elements are shown ;-) (SPACE is removed by trim method)
+            }
+        }
+        return values.toArray(new String[]{});
+    }
 
     private void insertNote(String newNote) {
         ContentValues values = new ContentValues();
