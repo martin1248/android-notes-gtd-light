@@ -9,6 +9,7 @@ Tasks
 --------- ??? -------------
  - Refactored setting due date
  - Use RecyclerView instead of ListView
+ - Apply Model concept 
 
 --------- Additional features ------------------------
  - Split notes table into additional context and project tables
