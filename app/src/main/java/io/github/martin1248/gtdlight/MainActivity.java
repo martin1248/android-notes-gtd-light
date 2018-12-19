@@ -39,6 +39,8 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import io.github.martin1248.gtdlight.model.GTDStates;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String allStatesKeyword = "All";
     private static final String[] statesExtended = {allStatesKeyword};
-    private static final String[] statesAll = Stream.concat(Arrays.stream(EditorActivity.states), Arrays.stream(statesExtended))
+    private static final String[] statesAll = Stream.concat(Arrays.stream(GTDStates.gtdStates), Arrays.stream(statesExtended))
             .toArray(String[]::new); // Note: Requires Java 8
     private Spinner chooseState;
 
@@ -292,8 +294,7 @@ public class MainActivity extends AppCompatActivity
             selection = null;
         }
 
-        //TODO Hardcoded
-        if (selectedState.equals("Calender")) {
+        if (selectedState.equals(GTDStates.stateCalender)) {
             sortOrder = DBOpenHelper.NOTE_DUEDATE + " ASC";
         }
 

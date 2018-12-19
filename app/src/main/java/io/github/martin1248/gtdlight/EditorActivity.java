@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +19,8 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Calendar;
+
+import static io.github.martin1248.gtdlight.model.GTDStates.gtdStates;
 
 public class EditorActivity extends AppCompatActivity implements
         View.OnClickListener{
@@ -41,7 +41,6 @@ public class EditorActivity extends AppCompatActivity implements
     Button btnDatePicker;
     private int mYear, mMonth, mDay;
 
-    public static final String[] states = {"Inbox", "Next actions", "Calender", "Waiting for", "Some day/maybe", "Reference", "Trash", "Done"};
     private String[] contexts = {"Home", "Office", "Phone", "Computer", "Shopping", "Errands" , "Agendas",
             " Home", " Office", " Phone", " Computer", " Shopping", " Errands" , " Agendas"};
     private String[] projects = {".Project 1", ".Project 2", ".Project 3"};
@@ -59,7 +58,7 @@ public class EditorActivity extends AppCompatActivity implements
         editorDueDate = findViewById(R.id.editDueDate);
 
         // Set adapter for drop down like ui types
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, states);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_item, gtdStates);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editorState.setAdapter(adapter);
 
@@ -100,7 +99,7 @@ public class EditorActivity extends AppCompatActivity implements
             oldDueDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_DUEDATE));
 
             // STATE
-            int position = Arrays.asList(states).indexOf(oldState);
+            int position = Arrays.asList(gtdStates).indexOf(oldState);
             if (position >= 0) {
                 editorState.setSelection(position);
             } else {
