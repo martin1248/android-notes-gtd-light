@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.ArraySet;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Set;
 
 import static io.github.martin1248.gtdlight.model.GTDStates.gtdStates;
 
@@ -41,10 +44,6 @@ public class EditorActivity extends AppCompatActivity implements
     Button btnDatePicker;
     private int mYear, mMonth, mDay;
 
-    private String[] contexts = {"Home", "Office", "Phone", "Computer", "Shopping", "Errands" , "Agendas",
-            " Home", " Office", " Phone", " Computer", " Shopping", " Errands" , " Agendas"};
-    private String[] projects = {".Project 1", ".Project 2", ".Project 3"};
-
     //region AppCompat-, Fragment- and Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +61,11 @@ public class EditorActivity extends AppCompatActivity implements
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editorState.setAdapter(adapter);
 
-        ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, contexts);
+        ArrayAdapter<String> adapterContexts = new ArrayAdapter<String>(this,R.layout.spinner_item, getContexts());
         editorContext.setThreshold(1);
         editorContext.setAdapter(adapterContexts);
 
-        ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, projects);
+        ArrayAdapter<String> adapterProjects = new ArrayAdapter<String>(this,R.layout.spinner_item, getProjects());
         editorProject.setThreshold(1);
         editorProject.setAdapter(adapterProjects);
 
@@ -176,6 +175,30 @@ public class EditorActivity extends AppCompatActivity implements
         datePickerDialog.show();
     }
     //endregion
+
+    private String[] getContexts() {
+        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_CONTEXT);
+    }
+
+    private String[] getProjects() {
+        return getAllValuesFromTableColumn(DBOpenHelper.NOTE_PROJECT);
+    }
+
+    private String[] getAllValuesFromTableColumn(String tableColumn) {
+        Set<String> contexts = new ArraySet<>();
+        Cursor mCursor = getContentResolver().query(NotesProvider.CONTENT_URI, null, null,null, null);
+        int indexContext = mCursor.getColumnIndex(tableColumn);
+        if (mCursor == null) {
+            Log.e("EditorActivity", "Failed to query notes");
+        } else if (mCursor.getCount() < 1) {
+            Log.d("EditorActivity", "No notes");
+        } else {
+            while (mCursor.moveToNext()) {
+                contexts.add(mCursor.getString(indexContext));
+            }
+        }
+        return contexts.toArray(new String[]{});
+    }
 
     private void deleteNote() {
         getContentResolver().delete(NotesProvider.CONTENT_URI, noteFilter, null);
