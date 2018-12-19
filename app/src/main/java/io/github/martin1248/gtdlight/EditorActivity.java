@@ -129,7 +129,7 @@ public class EditorActivity extends AppCompatActivity implements
         }
         return true;
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -145,7 +145,7 @@ public class EditorActivity extends AppCompatActivity implements
 
         return true;
     }
-*/
+
     @Override
     public void onBackPressed() {
         finishEditing();

@@ -18,5 +18,6 @@ Tasks
    - Context and Project editing
  - UI: Use third party Swipe Layout
  - UI: Add images to spinner
+ - UI: Add images in editor activity
  - UI: onsider using feature to make certain widgets invisible depending on the state. See editorState.setOnItemClickListener();
 
