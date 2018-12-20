@@ -37,27 +37,6 @@ public class NotesCursorAdapter extends CursorAdapter{
 
         TextView tv = view.findViewById(R.id.tvNote);
         tv.setText(noteText);
-
-        ImageButton checkBtn = (ImageButton)view.findViewById(R.id.btnCheck);
-        ImageButton deleteBtn = (ImageButton)view.findViewById(R.id.btnDelete);
-
-        checkBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //do something
-                Log.d("MainActivity", " ### checkBtn");
-                notifyDataSetChanged();
-            }
-        });
-
-        deleteBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //do something
-                Log.d("MainActivity", " ### deleteBtn");
-                notifyDataSetChanged();
-            }
-        });
     }
     //endregion
 }

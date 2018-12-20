@@ -1,8 +1,6 @@
 Tasks
 
 --------- Minimum, useable and presentable ------------
-Know How:
- - Spinner
 
 Main Activity
  - Filter: 
