@@ -34,6 +34,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private Spinner chooseState;
     private Spinner filterContext;
     private Spinner filterProjects;
+    private LinearLayout filterLayout;
 
     CursorAdapter cursorAdapter;
 
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity
               }
             });
 
+        filterLayout = findViewById(R.id.filterLinearLayout);
+        filterLayout.setVisibility(View.GONE);
         filterContext = findViewById(R.id.filterContext);
         filterProjects = findViewById(R.id.filterProject);
         reloadFilter();
@@ -193,13 +197,19 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.action_filter:
-            /*case R.id.action_create_sample:
+                if (filterLayout.getVisibility() == View.GONE) {
+                    filterLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    filterLayout.setVisibility(View.GONE);
+                }
+            case R.id.action_create_sample:
                 insertSampleData();
                 break;
             case R.id.action_delete_all:
                 deleteAllNotes();
                 break;
-            case R.id.action_settings:
+            /*case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;*/
@@ -227,9 +237,12 @@ public class MainActivity extends AppCompatActivity
     }
     //endregion
 
-    private void insertNote(String newNote) {
+    private void insertNote(String text, String state, String context, String dueDate) {
         ContentValues values = new ContentValues();
-        values.put(DBOpenHelper.NOTE_TEXT, newNote);
+        values.put(DBOpenHelper.NOTE_TEXT, text);
+        values.put(DBOpenHelper.NOTE_STATE, state);
+        values.put(DBOpenHelper.NOTE_CONTEXT, context);
+        values.put(DBOpenHelper.NOTE_DUEDATE, dueDate);
         Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI, values);
         Log.d("MainActivity", "Inserted note " + noteUri.getLastPathSegment());
     }
@@ -261,9 +274,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void insertSampleData() {
-        insertNote("Simple note");
-        insertNote("Multiline\nnote");
-        insertNote("Very long note with a lot of text that exceeds screen size");
+        insertNote("Simple note", GTDStates.stateInbox, "","");
+        insertNote("Multiline\nnote", GTDStates.stateInbox, "","");
+        insertNote("Very long note with a lot of text that exceeds screen size", GTDStates.stateInbox, "","");
+        insertNote("Note inbox 1", GTDStates.stateInbox, "","");
+        insertNote("Note inbox 2", GTDStates.stateInbox, "","");
+        insertNote("Note inbox 3", GTDStates.stateInbox, "","");
+        insertNote("Next action 1 Context 1", GTDStates.stateNextActions, "Context 1","");
+        insertNote("Next action 2 Context 2", GTDStates.stateNextActions, "Context 2","");
+        insertNote("Next action 3", GTDStates.stateNextActions, "","");
+        insertNote("Next action 4 Context 1", GTDStates.stateNextActions, "Context 1","");
+        insertNote("Note calender 1 2019-01-01", GTDStates.stateCalender, "","2019-01-01");
+        insertNote("Note calender 2 2019-01-03", GTDStates.stateCalender, "","2019-01-03");
+        insertNote("Note calender 3 2019-01-02", GTDStates.stateCalender, "","2019-01-02");
+
 
         restartLoader();
     }

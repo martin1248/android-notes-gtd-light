@@ -9,7 +9,7 @@
     tools:showIn="@layout/app_bar_main">
 
     <LinearLayout
-        android:id="@+id/myLinearLayout2"
+        android:id="@+id/filterLinearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,6 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myLinearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/filterLinearLayout" />
 
 </android.support.constraint.ConstraintLayout>

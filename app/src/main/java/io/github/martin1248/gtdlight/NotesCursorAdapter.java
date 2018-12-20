@@ -36,7 +36,15 @@ public class NotesCursorAdapter extends CursorAdapter{
         }
 
         TextView tv = view.findViewById(R.id.tvNote);
+
         tv.setText(noteText);
+
+        // DEBUG only start
+        String noteId = cursor.getString(
+                cursor.getColumnIndex(DBOpenHelper.NOTE_ID)
+        );
+        tv.setText("(" +noteId+") "+ noteText);
+        // DEBUG only end
     }
     //endregion
 }

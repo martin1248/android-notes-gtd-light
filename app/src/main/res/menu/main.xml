@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_filter"
+        android:icon="@drawable/ic_action_filter_list_light"
         android:orderInCategory="100"
         android:title="Filter"
-        android:icon="@drawable/ic_action_filter_list"
         app:showAsAction="always" />
     <!--
     <item
@@ -13,10 +13,16 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+        -->
+    <item
+        android:id="@+id/action_create_sample"
+        android:orderInCategory="100"
+        android:title="@string/create_sample_data"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_delete_all"
         android:orderInCategory="100"
         android:title="@string/delete_all_notes"
         app:showAsAction="never" />
-        -->
+
 </menu>
