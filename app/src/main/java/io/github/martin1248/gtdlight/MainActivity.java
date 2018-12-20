@@ -3,7 +3,6 @@ package io.github.martin1248.gtdlight;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
@@ -23,10 +21,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,8 +37,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import io.github.martin1248.gtdlight.model.GTDStates;
@@ -54,7 +48,8 @@ public class MainActivity extends AppCompatActivity
     private static final int EDITOR_REQUEST_CODE = 1002;
     private boolean permissionGranted;
 
-    private static final String noFilterKeyword = "No filter";
+    private static final String allContextsKeyword = "All contexts";
+    private static final String allProjectsKeyword = "All projects";
     private String[] currentContexts;
     private String[] currentProjects;
     private static final String allStatesKeyword = "All";
@@ -75,8 +70,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         chooseState = findViewById(R.id.spinner_nav);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_nav, statesAll);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_nav, statesAll);
+        adapter.setDropDownViewResource(R.layout.spinner_nav);
         chooseState.setAdapter(adapter);
         chooseState.setSelection(0);
         chooseState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -149,20 +144,21 @@ public class MainActivity extends AppCompatActivity
         int selectedContext = filterContext.getSelectedItemPosition();
         int selectedProject = filterProjects.getSelectedItemPosition();
 
-        String[] noFilterArray = {noFilterKeyword};
+        String[] allContectsArray = {allContextsKeyword};
+        String[] allProjectsArray = {allProjectsKeyword};
         String[] contexts = DBHelper.getContexts(getContentResolver());
         String[] projects = DBHelper.getProjects(getContentResolver());
-        currentContexts = Stream.concat(Arrays.stream(noFilterArray), Arrays.stream(contexts))
+        currentContexts = Stream.concat(Arrays.stream(allContectsArray), Arrays.stream(contexts))
                 .toArray(String[]::new);
-        currentProjects = Stream.concat(Arrays.stream(noFilterArray), Arrays.stream(projects))
+        currentProjects = Stream.concat(Arrays.stream(allProjectsArray), Arrays.stream(projects))
                 .toArray(String[]::new);
 
-        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_item, currentContexts);
-        adapterFilterContext.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterFilterContext = new ArrayAdapter<String>(this,R.layout.spinner_filter, currentContexts);
+        adapterFilterContext.setDropDownViewResource(R.layout.spinner_filter);
         filterContext.setAdapter(adapterFilterContext);
 
-        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_item, currentProjects);
-        adapterFilterProject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterFilterProject = new ArrayAdapter<String>(this,R.layout.spinner_filter, currentProjects);
+        adapterFilterProject.setDropDownViewResource(R.layout.spinner_filter);
         filterProjects.setAdapter(adapterFilterProject);
 
         if(selectedContext >= 0) {
@@ -367,10 +363,10 @@ public class MainActivity extends AppCompatActivity
         if (!selectedState.equals(allStatesKeyword)) {
             whereMatches.add(DBOpenHelper.NOTE_STATE + "='" + selectedState+ "'");
         }
-        if (!selectedContext.equals(noFilterKeyword)) {
+        if (!selectedContext.equals(allContextsKeyword)) {
             whereMatches.add(DBOpenHelper.NOTE_CONTEXT + "='" + selectedContext+ "'");
         }
-        if (!selectedProject.equals(noFilterKeyword)) {
+        if (!selectedProject.equals(allProjectsKeyword)) {
             whereMatches.add(DBOpenHelper.NOTE_PROJECT + "='" + selectedProject+ "'");
         }
 
