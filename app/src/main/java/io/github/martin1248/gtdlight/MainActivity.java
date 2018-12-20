@@ -203,7 +203,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case R.id.action_create_sample:
-                Log.d("MainAcitivity", "### Adding sample data");
                 insertSampleData();
                 break;
             case R.id.action_delete_all:
@@ -280,13 +279,13 @@ public class MainActivity extends AppCompatActivity
         insertNote("Note inbox 1", GTDStates.stateInbox, "","");
         insertNote("Note inbox 2", GTDStates.stateInbox, "","");
         insertNote("Note inbox 3", GTDStates.stateInbox, "","");
-        insertNote("Next action 1 Context 1", GTDStates.stateNextActions, "Context 1","");
-        insertNote("Next action 2 Context 2", GTDStates.stateNextActions, "Context 2","");
+        insertNote("Next action 1", GTDStates.stateNextActions, "Context 1","");
+        insertNote("Next action 2", GTDStates.stateNextActions, "Context 2","");
         insertNote("Next action 3", GTDStates.stateNextActions, "","");
-        insertNote("Next action 4 Context 1", GTDStates.stateNextActions, "Context 1","");
-        insertNote("Note calender 1 2019-01-01", GTDStates.stateCalender, "","2019-01-01");
-        insertNote("Note calender 2 2019-01-03", GTDStates.stateCalender, "","2019-01-03");
-        insertNote("Note calender 3 2019-01-02", GTDStates.stateCalender, "","2019-01-02");
+        insertNote("Next action 4", GTDStates.stateNextActions, "Context 1","");
+        insertNote("Note calender 1", GTDStates.stateCalender, "","2019-01-01");
+        insertNote("Note calender 2", GTDStates.stateCalender, "","2019-01-03");
+        insertNote("Note calender 3", GTDStates.stateCalender, "","2019-01-02");
 
 
         restartLoader();

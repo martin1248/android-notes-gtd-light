@@ -36,8 +36,24 @@ public class NotesCursorAdapter extends CursorAdapter{
         }
 
         TextView tv = view.findViewById(R.id.tvNote);
-
         tv.setText(noteText);
+
+        // sub text
+        String subtext = "";
+        String noteContext = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_CONTEXT));
+        if (noteContext != null && !noteContext.equals("")) {
+            subtext += noteContext;
+        }
+        String noteProject = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_PROJECT));
+        if (noteProject != null && !noteProject.equals("")) {
+            subtext += noteProject;
+        }
+        String noteDueDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_DUEDATE));
+        if (noteDueDate != null && !noteDueDate.equals("")) {
+            subtext += noteDueDate;
+        }
+        TextView tvSub = view.findViewById(R.id.tvNoteSub);
+        tvSub.setText(subtext);
     }
     //endregion
 }

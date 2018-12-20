@@ -3,8 +3,6 @@ Tasks
 --------- Minimum, useable and presentable ------------
  - Filter: 
    - When selecting filter then reload
- - ListView: 
-   - Subtext: Add 2nd textview
 
 
 

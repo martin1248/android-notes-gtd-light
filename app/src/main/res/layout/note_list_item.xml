@@ -9,18 +9,36 @@
         android:id="@+id/imageDocIcon"
         android:layout_width="27dp"
         android:layout_height="27dp"
+        android:layout_margin="8dp"
         android:src="@drawable/ic_action_check_circle_outline"
         android:contentDescription="@string/note"/>
 
-    <TextView
-        android:id="@+id/tvNote"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/imageDocIcon"
+        android:gravity="center_horizontal"
         android:layout_marginLeft="8dp"
-        android:singleLine="true"
-        android:text="Dummy Text"
-        android:textColor="@color/colorListItemText"
-        android:textSize="18sp" />
+        android:layout_toEndOf="@+id/imageDocIcon">
+        <TextView
+            android:id="@+id/tvNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:singleLine="true"
+            android:text="Dummy Text"
+            android:textColor="@color/colorListItemText"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvNoteSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNote"
+            android:singleLine="true"
+            android:textColor="@color/colorListItemText"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
