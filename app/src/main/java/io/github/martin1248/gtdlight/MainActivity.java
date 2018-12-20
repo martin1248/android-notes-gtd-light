@@ -203,7 +203,9 @@ public class MainActivity extends AppCompatActivity
                 else {
                     filterLayout.setVisibility(View.GONE);
                 }
+                break;
             case R.id.action_create_sample:
+                Log.d("MainAcitivity", "### Adding sample data");
                 insertSampleData();
                 break;
             case R.id.action_delete_all:
