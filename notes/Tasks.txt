@@ -1,15 +1,10 @@
 Tasks
 
 --------- Minimum, useable and presentable ------------
-
-Main Activity
  - Filter: 
    - When selecting filter then reload
-   - Filter style does not fit into design
- - Toolbar: Spinner in toolbar does not look smooth
  - ListView: 
    - Subtext: Add 2nd textview
-   - Buttons: Implement method body 
 
 
 

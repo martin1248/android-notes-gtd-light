@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity
                 }
                 else {
                     filterLayout.setVisibility(View.GONE);
+                    filterContext.setSelection(0);
+                    filterProjects.setSelection(0);
                 }
                 break;
             case R.id.action_create_sample:
