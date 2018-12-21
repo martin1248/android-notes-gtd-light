@@ -105,4 +105,5 @@
     <string name="select_date">Select date</string>
     <string name="delete">Delete</string>
     <string name="check">Check</string>
+    <string name="edit">Edit</string>
 </resources>
