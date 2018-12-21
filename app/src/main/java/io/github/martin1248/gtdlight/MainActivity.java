@@ -26,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     private Spinner filterContext;
     private Spinner filterProjects;
     private LinearLayout filterLayout;
-
+    private int filterCreated = 0; // This prevents endless "restartLoader" loop
     CursorAdapter cursorAdapter;
 
     //region AppCompat-, Fragment- and Activity
@@ -91,6 +92,35 @@ public class MainActivity extends AppCompatActivity
         filterContext = findViewById(R.id.filterContext);
         filterProjects = findViewById(R.id.filterProject);
         reloadFilter();
+
+        filterContext.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(++filterCreated > 2) {
+                    restartLoader();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Nothing is done
+            }
+        });
+
+        filterProjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(++filterCreated > 2) {
+                    restartLoader();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Nothing is done
+            }
+        });
+
 
         cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
@@ -292,6 +322,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void restartLoader() {
+        filterCreated = 0;
         getSupportLoaderManager().restartLoader(0,null,this);
         reloadFilter();
         Log.d("MainAc", " ### restart loader");
