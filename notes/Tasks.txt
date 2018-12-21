@@ -5,6 +5,7 @@ Tasks
 
 
 --------- Additional features ------------------------
+ - Import/Export
  - Refactored setting due date
  - Use RecyclerView instead of ListView
   - From Gassner: ???
