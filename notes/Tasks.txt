@@ -18,6 +18,7 @@ Tasks
  - Is there a better solution then implemented array concatination?
 
 --------- Additional features ------------------------
+ - Calender sections: Outdated, Today, This week, this month, later
  - Alternative states order: Inbox, Trash, Reference, Some day, Waiting for, Calendar, Next Actions
  - Refactored so that the user can not switch from next action state to inbox
  - Split notes table into additional context and project tables

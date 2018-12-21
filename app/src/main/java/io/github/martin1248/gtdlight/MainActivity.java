@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity
                     filterLayout.setVisibility(View.GONE);
                     filterContext.setSelection(0);
                     filterProjects.setSelection(0);
+                    restartLoader();
                 }
                 break;
             case R.id.action_create_sample:
