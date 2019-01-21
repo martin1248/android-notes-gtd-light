@@ -233,13 +233,13 @@ public class MainActivity extends AppCompatActivity
                     restartLoader();
                 }
                 break;
-            case R.id.action_create_sample:
+            /*case R.id.action_create_sample:
                 insertSampleData();
                 break;
             case R.id.action_delete_all:
                 deleteAllNotes();
                 break;
-            /*case R.id.action_settings:
+            case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;*/
